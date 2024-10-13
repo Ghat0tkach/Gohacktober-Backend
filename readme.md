@@ -1,5 +1,9 @@
----
-`
+
+# GoHacktober Backend
+
+GoHacktober is a backend service designed for managing and tracking Hacktoberfest contributions. This service leverages the GitHub API to retrieve repositories and contributions tagged with Hacktoberfest.
+
+```
     GGGG   OOO      H   H   AAAAA   CCCCC   K   K   TTTTT   OOO   BBBBB   EEEEE   RRRR  
    G      O   O     H   H   A   A   C       K  K      T    O   O  B    B  E       R   R
    G  GG  O   O     HHHHH   AAAAA   C       KKK       T    O   O  BBBBB   EEEE    RRRR 	
@@ -11,10 +15,8 @@
     BBBBB    AAAAA   C       KKK     EEEE    N N N   D   D
     B    B   A   A   C       K  K    E       N  NN   D   D
     BBBBB    A   A   CCCCC   K   K   EEEEE   N   N   DDDD  
-`
-# GoHacktober Backend
+```
 
-GoHacktober is a backend service designed for managing and tracking Hacktoberfest contributions. This service leverages the GitHub API to retrieve repositories and contributions tagged with Hacktoberfest.
 
 ## Features
 
@@ -71,7 +73,7 @@ Gohacktober-Backend/
 
 ## API Endpoints
 
-- **/contributions**: Fetch Hacktoberfest contributions for a user.
+- **/api/hacktober-fest-contributions**: Fetch Hacktoberfest contributions for a user.
   
   Example:
   ```bash
