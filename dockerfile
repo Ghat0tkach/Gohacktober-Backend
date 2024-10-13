@@ -1,10 +1,10 @@
-# Use the official Golang image as the base
+# Use the official Go image with version 1.23
 FROM golang:1.23
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Copy go.mod and go.sum first for dependency management
+# Copy go.mod and go.sum files
 COPY go.mod go.sum ./
 
 # Download Go modules
@@ -13,11 +13,14 @@ RUN go mod tidy
 # Copy the rest of the application files
 COPY . .
 
-# Build the application
-RUN go build -o main ./cmd/server
+# Copy the .env file
+COPY .env ./
 
-# Expose port 8080 for the server
+# Install dotenv (make sure to include it in your go.mod)
+RUN go get github.com/joho/godotenv
+
+# Expose the port the app runs on
 EXPOSE 8080
 
-# Set the command to run the server
-CMD ["./main"]
+# Command to run the application
+CMD ["go", "run", "cmd/server/main.go"]
