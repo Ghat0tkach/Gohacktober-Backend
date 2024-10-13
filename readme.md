@@ -1,3 +1,6 @@
+Here's the finalized README for your GoHacktober Backend project:
+
+---
 
 # GoHacktober Backend
 
@@ -17,12 +20,10 @@ GoHacktober is a backend service designed for managing and tracking Hacktoberfes
     BBBBB    A   A   CCCCC   K   K   EEEEE   N   N   DDDD  
 ```
 
-
 ## Features
 
 - Fetch Hacktoberfest-labeled repositories from both organizations and individual users.
 - Track user contributions (issues, pull requests) to these repositories.
-
 
 ## Project Structure
 
@@ -35,6 +36,7 @@ Gohacktober-Backend/
 │   ├── handlers/        # Handlers for GitHub API
 │   └── github/          # GitHub API client
 ├── go.mod               # Module dependencies
+├── Dockerfile           # DockerFile
 └── .env                 # Environment variables (e.g., GitHub token)
 ```
 
@@ -58,7 +60,6 @@ Gohacktober-Backend/
    GITHUB_TOKEN=your_personal_github_token
    GITHUB_ORG=Your organization or account for which you want contributions to be fetched from
    PORT=8080
-
    ```
 
 3. Install dependencies:
@@ -69,6 +70,18 @@ Gohacktober-Backend/
 4. Run the server:
    ```bash
    go run cmd/server/main.go
+   ```
+
+### Docker Instructions
+
+1. Build the Docker image:
+   ```bash
+   docker build -t gohacktober-backend .
+   ```
+
+2. Run the Docker container:
+   ```bash
+   docker run -d -p 8080:8080 --env-file .env gohacktober-backend
    ```
 
 ## API Endpoints
@@ -85,3 +98,5 @@ Gohacktober-Backend/
 MIT License
 
 ---
+
+Feel free to further customize any sections as needed!
