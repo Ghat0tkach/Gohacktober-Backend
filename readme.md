@@ -1,7 +1,3 @@
-Here's the finalized README for your GoHacktober Backend project:
-
----
-
 # GoHacktober Backend
 
 GoHacktober is a backend service designed for managing and tracking Hacktoberfest contributions. This service leverages the GitHub API to retrieve repositories and contributions tagged with Hacktoberfest.
@@ -97,6 +93,3 @@ Gohacktober-Backend/
 
 MIT License
 
----
-
-Feel free to further customize any sections as needed!
