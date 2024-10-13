@@ -1,6 +1,6 @@
 module github.com/Ghat0tkach/Gohacktober-Backend
 
-go 1.23.2
+go 1.23
 
 require (
 	github.com/google/go-github/v38 v38.1.0
