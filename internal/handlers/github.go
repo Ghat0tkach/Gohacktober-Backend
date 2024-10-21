@@ -6,6 +6,7 @@ import (
 	"os"
 	"fmt"
 	"context"
+	"net/url"
 
 	"github.com/Ghat0tkach/Gohacktober-Backend/internal/github"
 	"github.com/Ghat0tkach/Gohacktober-Backend/config"
@@ -73,20 +74,27 @@ func GitHubCallbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = SaveUserInfo(r.Context(), user.GetLogin(), token.AccessToken)
+	login := user.GetLogin()
+	accessToken := token.AccessToken
+
+	err = SaveUserInfo(r.Context(), login, accessToken)
+	if err != nil {
+		http.Error(w, "Failed to save user info", http.StatusInternalServerError)
+		return
+	}
+
 	redirectURL, err := url.Parse("http://localhost:3000/dashboard")
-    if err != nil {
-        http.Error(w, "Failed to parse redirect URL", http.StatusInternalServerError)
-        return
-    }
+	if err != nil {
+		http.Error(w, "Failed to parse redirect URL", http.StatusInternalServerError)
+		return
+	}
 
-    query := redirectURL.Query()
-    query.Set("login", login)
-    query.Set("accessToken", accessToken)
-    redirectURL.RawQuery = query.Encode()
+	query := redirectURL.Query()
+	query.Set("login", login)
+	query.Set("accessToken", accessToken)
+	redirectURL.RawQuery = query.Encode()
 
-    // Redirect to the frontend with the parameters
-    http.Redirect(w, r, redirectURL.String(), http.StatusFound)
+	http.Redirect(w, r, redirectURL.String(), http.StatusFound)
 }
 
 func SaveUserInfo(ctx context.Context, login, accessToken string) error {

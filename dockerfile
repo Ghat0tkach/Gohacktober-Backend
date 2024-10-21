@@ -14,10 +14,10 @@ RUN go mod tidy
 COPY . .
 
 # Build the application
-RUN go build -o main ./cmd/server
+RUN go build -o main ./server
 
 # Expose port 8080 for the server
 EXPOSE 8080
 
 # Set the command to run the server
-CMD ["./main"]
+CMD ["go", "run", "server/main.go"]
