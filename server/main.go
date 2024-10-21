@@ -6,7 +6,7 @@ import (
 	"os"
     "fmt"
 	"github.com/gorilla/mux"
-	// "github.com/joho/godotenv"  comment this out when running locally
+     "github.com/joho/godotenv"
 	"github.com/Ghat0tkach/Gohacktober-Backend/internal/handlers"
 	"github.com/Ghat0tkach/Gohacktober-Backend/config"
 	"github.com/Ghat0tkach/Gohacktober-Backend/internal/github"
@@ -16,7 +16,7 @@ func main() {
 	// Load environment variables
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Error loading .env file")
 	}
 
 	// Initialize configuration
