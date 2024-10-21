@@ -35,7 +35,9 @@ func main() {
 	r := mux.NewRouter()
 
 	// Set up routes
-	r.HandleFunc("/api/hacktoberfest-contributions", handlers.GetHacktoberfestContributionsHandler)
+    r.HandleFunc("/api/hacktoberfest-contributions", handlers.GetHacktoberfestContributionsHandler)
+	r.HandleFunc("/auth/github", handlers.GitHubAuthHandler)
+	r.HandleFunc("/auth/github/callback", handlers.GitHubCallbackHandler)
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Welcome to Gohacktober API")
 	})
