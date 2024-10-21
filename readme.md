@@ -56,6 +56,8 @@ Gohacktober-Backend/
    GITHUB_TOKEN=your_personal_github_token
    GITHUB_ORG=Your organization or account for which you want contributions to be fetched from
    PORT=8080
+   GITHUB_CLIENT_ID=your_github_client_id
+   GITHUB_CLIENT_SECRET=github_client_secret
    ```
 
 3. Install dependencies:

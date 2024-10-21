@@ -6,7 +6,7 @@ import (
 	"os"
     "fmt"
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"  comment this out when running locally
 	"github.com/Ghat0tkach/Gohacktober-Backend/internal/handlers"
 	"github.com/Ghat0tkach/Gohacktober-Backend/config"
 	"github.com/Ghat0tkach/Gohacktober-Backend/internal/github"
