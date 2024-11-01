@@ -83,7 +83,7 @@ func GitHubCallbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	redirectURL, err := url.Parse("http://localhost:3000/dashboard")
+	redirectURL, err := url.Parse("http://localhost:5173/dashboard")
 	if err != nil {
 		http.Error(w, "Failed to parse redirect URL", http.StatusInternalServerError)
 		return

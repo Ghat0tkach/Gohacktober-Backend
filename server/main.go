@@ -1,13 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
-    "fmt"
+
 	"github.com/gorilla/mux"
-     "github.com/joho/godotenv"
-	"github.com/Ghat0tkach/Gohacktober-Backend/internal/handlers"
+	gorillaHandlers "github.com/gorilla/handlers"
+	"github.com/joho/godotenv"
+	customHandlers "github.com/Ghat0tkach/Gohacktober-Backend/internal/handlers"
 	"github.com/Ghat0tkach/Gohacktober-Backend/config"
 	"github.com/Ghat0tkach/Gohacktober-Backend/internal/github"
 )
@@ -28,24 +30,29 @@ func main() {
 	// Initialize GitHub client
 	github.Init(cfg)
 
-	// Initialize handlers
-	handlers.Init(cfg)
+	// Initialize custom handlers
+	customHandlers.Init(cfg)
 
 	// Create a new router
 	r := mux.NewRouter()
 
 	// Set up routes
-    r.HandleFunc("/api/hacktoberfest-contributions", handlers.GetHacktoberfestContributionsHandler)
-	r.HandleFunc("/auth/github", handlers.GitHubAuthHandler)
-	r.HandleFunc("/auth/github/callback", handlers.GitHubCallbackHandler)
+	r.HandleFunc("/api/hacktoberfest-contributions", customHandlers.GetHacktoberfestContributionsHandler)
+	r.HandleFunc("/auth/github", customHandlers.GitHubAuthHandler)
+	r.HandleFunc("/auth/github/callback", customHandlers.GitHubCallbackHandler)
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Welcome to Gohacktober API")
 	})
+
 	// Start the server
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
+
+	// Apply CORS middleware
+	corsOptions := gorillaHandlers.CORS(gorillaHandlers.AllowedOrigins([]string{"*"}))
+
 	log.Println(`
     GGGG   OOO      H   H   AAAAA   CCCCC   K   K   TTTTT   OOO   BBBBB   EEEEE   RRRR  
    G      O   O     H   H   A   A   C       K  K      T    O   O  B    B  E       R   R
@@ -60,5 +67,5 @@ func main() {
  BBBBB    A   A   CCCCC   K   K   EEEEE   N   N   DDDD  
 `)
 	log.Printf("Server starting on port %s", port)
-	log.Fatal(http.ListenAndServe(":"+port, r))
+	log.Fatal(http.ListenAndServe(":"+port, corsOptions(r)))
 }

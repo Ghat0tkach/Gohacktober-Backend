@@ -3,6 +3,7 @@ package github
 import (
 	"context"
 	"fmt"
+	"time"
 	"github.com/google/go-github/v38/github"
 	"golang.org/x/oauth2"
 	"github.com/Ghat0tkach/Gohacktober-Backend/config"
@@ -10,6 +11,7 @@ import (
 )
 
 var client *github.Client
+
 
 func Init(cfg *config.Config) {
 	ctx := context.Background()
@@ -67,7 +69,8 @@ func fetchOrgHacktoberfestRepos(ctx context.Context, account string) ([]*github.
 	fmt.Printf("Fetching Hacktoberfest repos for account: %s\n", account)
 	var allRepos []*github.Repository
 	var err error
-
+    startDate := time.Date(2024, time.September, 1, 0, 0, 0, 0, time.UTC)
+    endDate := time.Date(2024, time.November, 1, 0, 0, 0, 0, time.UTC)
 	// First, try to fetch as an organization
 	orgRepos, err := fetchReposAsOrg(ctx, account)
 	if err == nil {
@@ -88,10 +91,14 @@ func fetchOrgHacktoberfestRepos(ctx context.Context, account string) ([]*github.
 		if err != nil {
 			return nil, err
 		}
+		
 		for _, topic := range topics {
 			if topic == "hacktoberfest" {
-				hacktoberfestRepos = append(hacktoberfestRepos, repo)
-				fmt.Printf("Found Hacktoberfest repo: %s\n", repo.GetName())
+				// Check if the repo creation date is within the specified range
+				if repo.GetCreatedAt().After(startDate) && repo.GetCreatedAt().Before(endDate) {
+					hacktoberfestRepos = append(hacktoberfestRepos, repo)
+					fmt.Printf("Found Hacktoberfest repo: %s, Created At: %s\n", repo.GetName(), repo.GetCreatedAt().Format("2006-01-02"))
+				}
 				break
 			}
 		}
