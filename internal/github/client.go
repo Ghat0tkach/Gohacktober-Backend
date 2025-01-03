@@ -148,6 +148,7 @@ func fetchReposAsUser(ctx context.Context, username string) ([]*github.Repositor
 func fetchUserContributions(ctx context.Context, owner, repo, username string) (map[string]interface{}, error) {
 	filteredIssues := []*github.Issue{}
 	fmt.Printf("Fetching contributions for user %s in repo %s/%s\n", username, owner, repo)
+	
 	issues, _, err := client.Issues.ListByRepo(ctx, owner, repo, &github.IssueListByRepoOptions{
 		Creator: username,
 		State:   "all",
@@ -155,15 +156,15 @@ func fetchUserContributions(ctx context.Context, owner, repo, username string) (
 	if err != nil {
 		return nil, fmt.Errorf("error fetching issues: %v", err)
 	}
+	
 	for _, issue := range issues {
-		if issue.GetUser().GetLogin() == username {
-			filteredIssues = append(filteredIssues, *issue)
+		if issue.GetUser().GetLogin() == username && issue.IsPullRequest() == false {
+			filteredIssues = append(filteredIssues, issue)
 		}
 	}
-	
 
 	fmt.Printf("Found %d issues for user %s in repo %s/%s\n", len(filteredIssues), username, owner, repo)
-    fmt.Println(filteredIssues)
+	
 	pulls, _, err := client.PullRequests.List(ctx, owner, repo, &github.PullRequestListOptions{
 		State: "all",
 	})
@@ -173,7 +174,7 @@ func fetchUserContributions(ctx context.Context, owner, repo, username string) (
 
 	userPulls := filterPullRequestsByUser(pulls, username)
 	fmt.Printf("Found %d pull requests for user %s in repo %s/%s\n", len(userPulls), username, owner, repo)
-    
+	
 	return map[string]interface{}{
 		"issues": summarizeIssues(filteredIssues),
 		"pulls":  summarizePullRequests(userPulls),
