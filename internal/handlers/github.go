@@ -94,6 +94,8 @@ func GitHubCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	query.Set("accessToken", accessToken)
 	redirectURL.RawQuery = query.Encode()
 
+	fmt.Println("Redirect URL:", redirectURL.String())
+
 	http.Redirect(w, r, redirectURL.String(), http.StatusFound)
 }
 
